@@ -9,5 +9,6 @@ script:
     - envsubst < docker-compose.yml  > docker.2 && mv docker.2 docker-compose.yml
     - cat docker-compose.yml
     - echo ${SSH_PRIVATE_KEY} > ${HOME}/.ssh/known_hosts
-    - chmod 0644 -R ${HOME}/.ssh && chown -R travis:travi ${HOME}/.ssh
+    - sudo chown -v $USER ~/.ssh/known_hosts
+    - chmod 0644 -R ${HOME}/.ssh && chown -R travis:travis ${HOME}/.ssh
     - scp -o "StrictHostKeyChecking no"  ./docker-compose.yml  pipeline@95.111.228.155:/home/pipeline/
