@@ -1,11 +1,13 @@
 language: bash
 
 sudo: required
+addons:
+  ssh_known_hosts:
+  - 95.111.228.155
 
 script:
     - envsubst < docker-compose.yml  > docker.2 && mv docker.2 docker-compose.yml
     - cat docker-compose.yml
-    - echo ${SSH_PRIVATE_KEY} > ${HOME}/.ssh/connection.key 
+    - echo ${SSH_PRIVATE_KEY} > ${HOME}/.ssh/known_hosts
     - chmod 0644 -R ${HOME}/.ssh && chown -R travis:travi ${HOME}/.ssh
-    - ssh -i ${HOME}/.ssh/connection.key -o "StrictHostKeyChecking no"  pipeline@95.111.228.155
-    - scp -o "StrictHostKeyChecking no"  -i ./connection.key  docker-compose.yml 
+    - scp -o "StrictHostKeyChecking no"  ./docker-compose.yml  pipeline@95.111.228.155:/home/pipeline/
