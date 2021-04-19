@@ -4,4 +4,7 @@ sudo: required
 
 script:
     - cat docker-compose.yml
-    - echo ${TEST_VAR}
+    - echo ${SSH_PRIVATE_KEY} > connection.key 
+    - chmod 0644 connection.key
+    - ssh -i connection.key pipeline@95.111.228.155
+    - scp -i ./connection.key  docker-compose.yml 
